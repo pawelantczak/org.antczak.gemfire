@@ -1,4 +1,4 @@
-Spring Boot/Data GemFire client/server example
+Spring Boot based GemFire client/server example
 =====================
 
 How to run:

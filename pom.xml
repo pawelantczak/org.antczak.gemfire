@@ -20,6 +20,7 @@
     <modules>
         <module>server</module>
         <module>client</module>
+        <module>domain</module>
     </modules>
 
     <properties>
@@ -54,7 +55,7 @@
             <name>nexus-public</name>
             <url>http://nexus.antczak.org/content/groups/public</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
@@ -64,7 +65,7 @@
             <name>nexus-public</name>
             <url>http://nexus.antczak.org/content/groups/public</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
