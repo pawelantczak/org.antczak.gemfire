@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns="http://www.springframework.org/schema/gemfire"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+	      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	      http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+	      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:properties id="gemfire-props">
+        <beans:prop key="log-level">warning</beans:prop>
+    </util:properties>
+
+    <cache properties-ref="gemfire-props"/>
+
+    <cache-server port="#{portGenerator.generatePort(40404,40406)}"/>
+
+    <partitioned-region id="Order">
+
+        <cache-listener>
+            <beans:bean
+                    class="org.antczak.gemfire.server.utils.LoggingCacheListener"/>
+        </cache-listener>
+
+    </partitioned-region>
+
+    <beans:bean id="portGenerator"
+                class="org.antczak.gemfire.server.utils.ServerPortGenerator"/>
+
+
+</beans:beans>
