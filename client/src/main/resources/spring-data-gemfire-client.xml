@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns="http://www.springframework.org/schema/gemfire"
-             xmlns:util="http://www.springframework.org/schema/util"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="
-	      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	      http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
-	      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:gfe="http://www.springframework.org/schema/gemfire"
+       xmlns:gfe-data="http://www.springframework.org/schema/data/gemfire"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	        http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+	        http://www.springframework.org/schema/data/gemfire http://www.springframework.org/schema/data/gemfire/spring-data-gemfire.xsd">
 
-    <util:properties id="gemfire-props">
-        <beans:prop key="log-level">warning</beans:prop>
-    </util:properties>
+    <gfe:client-cache/>
 
-    <client-cache properties-ref="gemfire-props"/>
+    <gfe:pool>
+        <gfe:server host="localhost" port="40500"/>
+        <gfe:server host="localhost" port="40501"/>
+        <gfe:server host="localhost" port="40502"/>
+    </gfe:pool>
 
-    <client-region id="Order" data-policy="EMPTY"/>
+    <gfe:client-region id="CustomerReplicated">
+        <gfe:cache-listener>
+            <bean class="org.antczak.gemfire.client.listeners.LoggingCacheListener"/>
+        </gfe:cache-listener>
+    </gfe:client-region>
 
-    <pool>
-        <server host="localhost" port="40404"/>
-        <server host="localhost" port="40405"/>
-        <server host="localhost" port="40406"/>
-    </pool>
+    <gfe:client-region id="CustomerPartitioned" shortcut="PROXY">
+        <gfe:cache-listener>
+            <bean class="org.antczak.gemfire.client.listeners.LoggingCacheListener"/>
+        </gfe:cache-listener>
+    </gfe:client-region>
 
+    <gfe:client-region id="CustomerLocal">
+        <gfe:cache-listener>
+            <bean class="org.antczak.gemfire.client.listeners.LoggingCacheListener"/>
+        </gfe:cache-listener>
+    </gfe:client-region>
 
-</beans:beans>
+</beans>
