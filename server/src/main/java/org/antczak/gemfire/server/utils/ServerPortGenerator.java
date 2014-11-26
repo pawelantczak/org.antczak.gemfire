@@ -14,62 +14,38 @@
 */
 package org.antczak.gemfire.server.utils;
 
-/**
- * @author Wayne Lund
- * @author David Turanski
- *
- */
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.security.SecureRandom;
 
 public class ServerPortGenerator {
 
     Logger log = Logger.getLogger(ServerPortGenerator.class);
 
-    public int generatePort() {
-        SecureRandom random = new SecureRandom();
-        int port = random.nextInt(10000);
-        port += 40000;
-        // implement a check to make sure port is not used.
-        // on bind exception try again
-        log.debug("Server Port:" + port);
-        return port;
-    }
-
     public int generatePort(int min, int max) throws IOException {
-        ServerSocket socket = new ServerSocket();
-        int port = bind(socket, min, max - min);
-        if (port > 0) {
-            socket.close();
-            return port;
-        } else {
-            throw new IOException("Unable to bind on to a port between " + min + " and " + max);
-        }
-
-    }
-
-    public int bind(ServerSocket socket, int portstart, int retries) throws IOException {
-        InetSocketAddress addr = null;
-        int port = portstart;
-        while (retries > 0) {
-            try {
-                addr = new InetSocketAddress(port);
-                socket.bind(addr);
-                retries = 0;
+        for (int port = min; port <= max; port++) {
+            if (isPortAvailable(port)) {
                 return port;
-            } catch (IOException x) {
-                retries--;
-                if (retries <= 0) {
-                    throw x;
-                }
-                port++;
             }
         }
-        return -1;
+        throw new IOException("No ports available in given range");
+    }
+
+    private boolean isPortAvailable(final int port) throws IOException {
+        ServerSocket ss = null;
+        try {
+            ss = new ServerSocket(port);
+            ss.setReuseAddress(true);
+            return true;
+        } catch (final IOException e) {
+        } finally {
+            if (ss != null) {
+                ss.close();
+            }
+        }
+
+        return false;
     }
 
 }
