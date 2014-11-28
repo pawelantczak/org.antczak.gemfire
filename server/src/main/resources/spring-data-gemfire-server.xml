@@ -17,20 +17,14 @@
 
     <gfe:cache-server port="#{portGenerator.generatePort(40500,40502)}"/>
 
-    <gfe:partitioned-region id="CustomerPartitioned">
+    <gfe:partitioned-region id="Customer">
         <gfe:cache-listener>
             <bean class="org.antczak.gemfire.server.listeners.LoggingCacheListener"/>
         </gfe:cache-listener>
     </gfe:partitioned-region>
 
-    <gfe:replicated-region id="CustomerReplicated">
-        <gfe:cache-listener>
-            <bean class="org.antczak.gemfire.server.listeners.LoggingCacheListener"/>
-        </gfe:cache-listener>
-    </gfe:replicated-region>
-
-    <gfe:local-region id="CustomerLocal"/>
-
     <bean id="portGenerator" class="org.antczak.gemfire.server.utils.ServerPortGenerator"/>
+
+    <util:properties id="props" location="classpath:gemfire.properties"/>
 
 </beans>
