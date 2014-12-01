@@ -61,7 +61,7 @@
             <name>nexus-public</name>
             <url>http://nexus.antczak.org/content/groups/public</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
@@ -71,7 +71,7 @@
             <name>nexus-public</name>
             <url>http://nexus.antczak.org/content/groups/public</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
